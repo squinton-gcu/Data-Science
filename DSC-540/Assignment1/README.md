@@ -1,6 +1,8 @@
 The attached files for this assignment:
   python script - assignment1_pyCode.py
+  
   Jupyter Notebook - Assignment1_DSC540_QuintonNotebook
+  
   Word Document Report - Assignment1_QuintonReport.docx
   
  The python script is the code that can e executed to complete the assignment. It was broken up into the Jupyter Notebook for the graphs.
