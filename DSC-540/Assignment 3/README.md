@@ -1,8 +1,8 @@
 This assignment focusses on gradient descent and logistic regression
-## programmer - Sophia Quinton
-## date - 11-17-21
-## class - DSC -540
-## assignment - Assignment 3
+### programmer - Sophia Quinton
+### date - 11-17-21
+### class - DSC -540
+### assignment - Assignment 3
 
 # Files
 - Assignment3_pycode.py = raw python code for this assignment
