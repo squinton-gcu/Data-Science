@@ -1,0 +1,13 @@
+name: implementation_io
+title: implementation_io
+username:
+account: squinton2-datascience-gcu
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6664533
+bundleId: 6113017
+url: https://squinton2-datascience-gcu.shinyapps.io/implementation_io/
+when: 1658258493.05819
+lastSyncTime: 1658258493.05819
+asMultiple: FALSE
+asStatic: FALSE
