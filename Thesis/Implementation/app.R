@@ -104,7 +104,9 @@ server <- function(input, output, session) {
       sample = test1
     }
     ggplot(sample, aes(x = y, y=x, fill = value)) + geom_tile(color="black") + 
-      scale_fill_gradientn(colors = hcl.colors(20, "RdYlGn")) + coord_fixed() + 
+      scale_fill_gradient2(low = "#075AFF",
+                       mid = "#FFFFCC",
+                       high = "#FF0000") + coord_fixed() + 
       theme(axis.text.x = element_text(angle=90, size=9))},
     width=500, height=1000)
   
