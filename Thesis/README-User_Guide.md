@@ -24,10 +24,10 @@ The user interface module runs on a Shiny web application that is currently bein
 The user interface module displays the three metabolites. These metabolites are extracted during the correlation module. The data is the from the features selected in the trauma dataset and extracted from the features selected in the Alzheimer's dataset. The graphs are generated with ggplot2. The data table that is displayed is generated from the predictive analysis module to display the metrics. The data can sorted. The heatmap displays all selected and similar features across the data. The user can toggle between collection site to show the different results. 
 ## How to Use
 The user can download the data from The Metabolomics Workbench from these four sets:
-•	Serum metabolites in trauma patients versus healthy volunteers (Fhein, 2019). http://dx.doi.org/10.21228/M8ZH5N
-•	Metabolic analysis of rat hippocampus and plasma in response to stress (Zhang, 2018). http://dx.doi.org/10.21228/M8MT2H
-•	Metabolites of Alzheimer’s disease in CSF (Peterson, 2014). http://dx.doi.org/10.21228/ M88G6G
-•	Metabolites of Alzheimer’s disease in plasma (Peterson, 2014). http://dx.doi.org/10.21228/ M88G6G
+-	Serum metabolites in trauma patients versus healthy volunteers (Fhein, 2019). http://dx.doi.org/10.21228/M8ZH5N
+-	Metabolic analysis of rat hippocampus and plasma in response to stress (Zhang, 2018). http://dx.doi.org/10.21228/M8MT2H
+-	Metabolites of Alzheimer’s disease in CSF (Peterson, 2014). http://dx.doi.org/10.21228/ M88G6G
+-	Metabolites of Alzheimer’s disease in plasma (Peterson, 2014). http://dx.doi.org/10.21228/ M88G6G
 This work is supported by NIH grant U2C-DK119886. The modules are in a Docker file on Google Cloud run. The path to the datasets needs to be initialized in the Docker Image file. Once the Docker Image is initialized, the application will run, produce the results and then display the shiny web application. Without the Docker application, each module can be executed one after the other in this order:
 1.	Processing Module
 2.	Feature Selection Module
