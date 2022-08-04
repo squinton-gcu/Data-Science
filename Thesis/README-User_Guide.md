@@ -37,7 +37,7 @@ This work is supported by NIH grant U2C-DK119886. The modules are in a Docker fi
 
 For further detailed information on the modules, please review their own README files. 
 
-# References
+#### References
 Acharjee, A., Larkman, J., Xu, Y., Cardoso, V. R., & Gkoutos, G. V. (2020). A random forest based biomarker discovery and power analysis framework for diagnostics research. BMC Medical Genomics, 13(1), 178. https://doi.org/10.1186/s12920-020-00826-6
 Aderemi, A. V., Ayeleso, A. O., Oyedapo, O. O., & Mukwevho, E. (2021). Metabolomics: A Scoping Review of Its Role as a Tool for Disease Biomarker Discovery in Selected Non-Communicable Diseases. Metabolites, 11(7), 418. https://doi.org/10.3390/metabo11070418
 Chang, W., Cheng, J., Allaire, J. J., Sievert, C., Schloerke, B., Xie, Y., Allen, J., McPherson, J., Dipert, A., Borges, B., RStudio, library),  jQuery F. (jQuery library and jQuery U., inst/www/shared/jquery-AUTHORS.txt),  jQuery contributors (jQuery library; authors listed in, inst/www/shared/jqueryui/AUTHORS.txt),  jQuery U. contributors (jQuery U. library; authors listed in, library), M. O. (Bootstrap, library), J. T. (Bootstrap, library), B. contributors (Bootstrap, Twitter, library), I. (Bootstrap, … R), R. C. T. (tar implementation from. (2022). shiny: Web Application Framework for R (1.7.2). https://CRAN.R-project.org/package=shiny
