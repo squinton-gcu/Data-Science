@@ -1,25 +1,25 @@
-FROM bioconductor/bioconductor_docker:devel
+FROM bioconductor/bioconductor_docker:devel AS base
 
 WORKDIR /application
 
-COPY requirements-src.r /application/requirements-src.r
-COPY requirements-bioc.r /application/requirements-bioc.r 
+COPY scripts/ application/
+COPY Data_Files/ application/
+COPY main_setup.sh application/
+COPY shiny-server.conf application/
+COPY shiny-server.sh application/
+COPY requirements-p application/
 
-RUN apt-get update
-RUN Rscript requirements-src.r 
+RUN apt-get update \
+&& apt-get -y install python 3.7 \
+&& apt -y install python3-pip
 
-RUN Rscript -e 'requireNamespace("BiocManager"); BiocManager::install(ask=F);' \
-&& Rscript requirements-bioc.R
+RUN R -e "install.packages(c('shiny', 'ggplot2', 'reshape', 'stringr'), repos = 'http://cran/rstudio.com/')" 
 
-RUN Rscript 
+RUN R -e 'BiocManager::install("MAI")'
 
-COPY ./application
+RUN pip3 install -r "application/requirements-p"
 
-FROM python:3.8-slim-buster
+# select port
+EXPOSE 3838
 
-WORKDIR /application
-
-COPY requirements-p.txt /application/requirements-p.txt
-
-RUN pip3 install -r requirements-p.txt
-COPY ./application
+CMD ["bash", "application/main_setup.sh"]
