@@ -21,13 +21,13 @@ from google.colab import drive
 drive.mount('/content/drive')
 
 # read in files
-ALZ_plasma_feat = pd.read_csv("ALZ_plasma_selected_features.csv", index_col=0)
-ALZ_csf_feat = pd.read_csv("ALZ_csf_selected_features.csv", index_col=0)
-trauma_human_feat = pd.read_csv("trauma_human_selected_features.csv", index_col=0)
+ALZ_plasma_feat = pd.read_csv("application/ALZ_plasma_selected_features.csv", index_col=0)
+ALZ_csf_feat = pd.read_csv("application/ALZ_csf_selected_features.csv", index_col=0)
+trauma_human_feat = pd.read_csv("application/trauma_human_selected_features.csv", index_col=0)
 
-ALZ_plasma_p = pd.read_csv("ALZ_plasma_processed.csv", index_col=0).transpose()
-ALZ_csf_p = pd.read_csv("ALZ_csf_processed.csv", index_col=0).transpose()
-trauma_human_p = pd.read_csv("trauma_human_processed.csv", index_col=0).transpose()
+ALZ_plasma_p = pd.read_csv("application/ALZ_plasma_processed.csv", index_col=0).transpose()
+ALZ_csf_p = pd.read_csv("application/ALZ_csf_processed.csv", index_col=0).transpose()
+trauma_human_p = pd.read_csv("application/trauma_human_processed.csv", index_col=0).transpose()
 
 ALZ_plasma_feat.columns
 
@@ -150,7 +150,7 @@ sort_stress_top_top_plasma_cor
 sort_stress_top_all_plasma_cor
 
 #save values
-sort_stress_top_all_plasma_cor.to_csv("sort_stress_top_all_plasma_cor.csv")
-sort_stress_top_top_plasma_cor.to_csv("sort_stress_top_top_plasma_cor.csv")
-sort_stress_top_all_csf_cor.to_csv("sort_stress_top_all_csf_cor.csv")
-sort_stress_top_top_csf_cor.to_csv("sort_stress_top_top_csf_cor.csv")
+sort_stress_top_all_plasma_cor.to_csv("application/sort_stress_top_all_plasma_cor.csv")
+sort_stress_top_top_plasma_cor.to_csv("application/sort_stress_top_top_plasma_cor.csv")
+sort_stress_top_all_csf_cor.to_csv("application/sort_stress_top_all_csf_cor.csv")
+sort_stress_top_top_csf_cor.to_csv("application/sort_stress_top_top_csf_cor.csv")

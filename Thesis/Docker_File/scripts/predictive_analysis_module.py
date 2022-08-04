@@ -18,14 +18,14 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 
-ALZ_plasma_p = pd.read_csv("ALZ_plasma_processed.csv", index_col=0).transpose()
-ALZ_csf_p = pd.read_csv("ALZ_csf_processed.csv", index_col=0).transpose()
-trauma_human_p = pd.read_csv("trauma_human_processed.csv", index_col=0).transpose()
+ALZ_plasma_p = pd.read_csv("application/ALZ_plasma_processed.csv", index_col=0).transpose()
+ALZ_csf_p = pd.read_csv("application/ALZ_csf_processed.csv", index_col=0).transpose()
+trauma_human_p = pd.read_csv("application/trauma_human_processed.csv", index_col=0).transpose()
 
-sort_stress_top_all_plasma_cor = pd.read_csv("sort_stress_top_all_plasma_cor.csv", index_col=0)
-sort_stress_top_top_plasma_cor =  pd.read_csv("sort_stress_top_top_plasma_cor.csv", index_col=0)
-sort_stress_top_all_csf_cor =  pd.read_csv("Selected_Features/sort_stress_top_all_csf_cor.csv", index_col=0)
-sort_stress_top_top_csf_cor =  pd.read_csv("sort_stress_top_top_csf_cor.csv", index_col=0)
+sort_stress_top_all_plasma_cor = pd.read_csv("application/sort_stress_top_all_plasma_cor.csv", index_col=0)
+sort_stress_top_top_plasma_cor =  pd.read_csv("application/sort_stress_top_top_plasma_cor.csv", index_col=0)
+sort_stress_top_all_csf_cor =  pd.read_csv("application/Selected_Features/sort_stress_top_all_csf_cor.csv", index_col=0)
+sort_stress_top_top_csf_cor =  pd.read_csv("application/sort_stress_top_top_csf_cor.csv", index_col=0)
 
 def get_test_train(dataframe):
   """
@@ -119,9 +119,9 @@ for metabolite in range(len(sort_stress_top_top_csf_cor)):
 stress_csf2.index = ['f1', 'acc', 'prec', 'recall']
 stress_csf2 = stress_csf2.transpose().sort_values(by=['acc'])
 
-stress_plasma1.to_csv("stress_top_plasma_all_pred.csv")
-stress_plasma2.to_csv("stress_top_plasma_top_pred.csv")
-stress_csf1.to_csv("stress_top_csf_all_pred.csv")
-stress_csf2.to_csv("stress_top_csf_top_pred.csv")
+stress_plasma1.to_csv("application/stress_top_plasma_all_pred.csv")
+stress_plasma2.to_csv("application/stress_top_plasma_top_pred.csv")
+stress_csf1.to_csv("application/stress_top_csf_all_pred.csv")
+stress_csf2.to_csv("application/stress_top_csf_top_pred.csv")
 
 

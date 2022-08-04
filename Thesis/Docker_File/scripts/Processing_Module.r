@@ -2,10 +2,10 @@
 library('MAI')
 
 #read in files
-ALZ_plasma <- read.table("ALZ_plasma.csv", header=TRUE, row.names = 1, sep =',')
-ALZ_CSF <- read.table("ALZ_CSF2.csv", header=TRUE, row.names=1, sep=',')
-trauma_human <- read.table("trauma_human.csv", header=TRUE, row.names=1, sep=',')
-trauma_rat <- read.table("rat_stress.csv", header=TRUE, row.names=1, sep=',')
+ALZ_plasma <- read.table("application/ALZ_plasma.csv", header=TRUE, row.names = 1, sep =',')
+ALZ_CSF <- read.table("application/ALZ_CSF2.csv", header=TRUE, row.names=1, sep=',')
+trauma_human <- read.table("application/trauma_human.csv", header=TRUE, row.names=1, sep=',')
+trauma_rat <- read.table("application/rat_stress.csv", header=TRUE, row.names=1, sep=',')
 
 #processing function
 processing_step_impute <- function(Input_File) {
@@ -47,17 +47,17 @@ processing_step_scale <- function(normalizedFile) {
 
 # will generate a few random initial exploratory graphs to ensure processing was successful
 graph_normalizeVSscale <- function(normalized_table, scale_table, table_name) {
-  png(paste(table_name, "_scale1.png"))
+  png(paste("application/", table_name, "_scale1.png"))
   scale1_hist <- hist(as.numeric(scale_table[1,]), main = paste("Histogram of " , table_name, "scale1"))
   dev.off()
-  png(paste(table_name, "_scale12.png"))
+  png(paste("application/", table_name, "_scale12.png"))
   scale12_hist <- hist(as.numeric(scale_table[15,]), main = paste("Histogram of " , table_name, "scale2"))
   dev.off()
 
-  png(paste(table_name, "_normalized1.png"))
+  png(paste("application/", table_name, "_normalized1.png"))
   normalized1_hist <- hist(as.numeric(normalized_table[1,]), main = paste("Histogram of " , table_name, "normalized1"))
   dev.off()
-  png(paste(table_name, "_normalized2.png"))
+  png(paste("application/", table_name, "_normalized2.png"))
   normalized2_hist <- hist(as.numeric(normalized_table[15,]), main = paste("Histogram of " , table_name, "normalized2"))
   dev.off()
 }
@@ -107,7 +107,7 @@ graph_normalizeVSscale(trauma_human_normalized, trauma_human_scaled, "trauma_hum
 graph_normalizeVSscale(trauma_rat_normalized, trauma_rat_scaled, "trauma_rat")
 
 # save processed verisons of data frames
-write.csv(ALZ_plasma_scaled, "ALZ_plasma_processed.csv", row.names=TRUE)
-write.csv(ALZ_csf_scaled, "ALZ_csf_processed.csv", row.names=TRUE)
-write.csv(trauma_human_scaled, "trauma_human_processed.csv", row.names=TRUE)
-write.csv(trauma_rat_scaled, "trauma_rat_processed.csv", row.names=TRUE)
+write.csv(ALZ_plasma_scaled, "application/ALZ_plasma_processed.csv", row.names=TRUE)
+write.csv(ALZ_csf_scaled, "application/ALZ_csf_processed.csv", row.names=TRUE)
+write.csv(trauma_human_scaled, "application/trauma_human_processed.csv", row.names=TRUE)
+write.csv(trauma_rat_scaled, "application/trauma_rat_processed.csv", row.names=TRUE)

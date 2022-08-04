@@ -18,10 +18,10 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 #import data
-ALZ_plasma_p = pd.read_csv("ALZ_plasma_processed.csv", index_col=0)
-ALZ_csf_p = pd.read_csv("ALZ_csf_processed.csv", index_col=0)
-trauma_rat_p = pd.read_csv("trauma_rat_processed.csv", index_col=0)
-trauma_human_p = pd.read_csv("trauma_human_processed.csv", index_col=0)
+ALZ_plasma_p = pd.read_csv("application/ALZ_plasma_processed.csv", index_col=0)
+ALZ_csf_p = pd.read_csv("application/ALZ_csf_processed.csv", index_col=0)
+trauma_rat_p = pd.read_csv("application/trauma_rat_processed.csv", index_col=0)
+trauma_human_p = pd.read_csv("application/trauma_human_processed.csv", index_col=0)
 
 def ALZ_selection(dataframe, cutBy, other, num_features=None):
   """
@@ -147,14 +147,14 @@ trauma_human_f_selected = final_cutter(trauma_human_p, trauma_human_features)
 trauma_rat_f_selected = final_cutter(trauma_rat_p, trauma_rat_features)
 
 #save p-values
-ALZ_plasma_features.to_csv("ALZ_plasma_tp-scores.csv")
-ALZ_csf_features.to_csv("ALZ_csf_tp-scores.csv")
-trauma_human_features.to_csv("trauma_human_tp-scores.csv")
-trauma_rat_features.to_csv("trauma_rat_tp-scores.csv")
+ALZ_plasma_features.to_csv("application/ALZ_plasma_tp-scores.csv")
+ALZ_csf_features.to_csv("application/ALZ_csf_tp-scores.csv")
+trauma_human_features.to_csv("application/trauma_human_tp-scores.csv")
+trauma_rat_features.to_csv("application/trauma_rat_tp-scores.csv")
 
 #save subsets
-ALZ_plasma_f_selected.to_csv("ALZ_plasma_selected_features.csv")
-ALZ_csf_f_selected.to_csv("ALZ_csf_selected_features.csv")
-trauma_human_f_selected.to_csv("trauma_human_selected_features.csv")
-trauma_rat_f_selected.to_csv("trauma_rat_selected_features.csv")
+ALZ_plasma_f_selected.to_csv("application/ALZ_plasma_selected_features.csv")
+ALZ_csf_f_selected.to_csv("application/ALZ_csf_selected_features.csv")
+trauma_human_f_selected.to_csv("application/trauma_human_selected_features.csv")
+trauma_rat_f_selected.to_csv("application/trauma_rat_selected_features.csv")
 
