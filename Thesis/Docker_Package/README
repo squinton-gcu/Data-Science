@@ -1,0 +1,20 @@
+This contains the docker package, file, and image that is deploy to Google Cloud Run
+
+Instructions for deployment
+
+In Ubuntu:
+docker build -t squin/image_thesis .
+docker-slim build squin/image_thesis
+
+In Google Cloud SDK:
+gcloud auth login
+gcloud auth configure-docker
+docker tag squin/image_thesis gcr.io/<project in GCR>/image_thesis
+docker push gcr.io/<project in GCR>/image_thesis
+
+parameters set in GCR:
+port: 3838
+memory:8GB
+CPU 4GB
+auth for all choose image_thesis
+location: Oregon
