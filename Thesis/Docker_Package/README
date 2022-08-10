@@ -18,3 +18,7 @@ memory:8GB
 CPU 4GB
 auth for all choose image_thesis
 location: Oregon
+
+updates: 8-9-22
+
+needed to run wrapper script in build then deploy with just the shiny app
