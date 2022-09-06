@@ -73,62 +73,77 @@ csf_trainX, csf_testX, csf_trainY, csf_testY = get_test_train(ALZ_csf_p)
 
 stress_plasma1 = pd.DataFrame()
 matrix_list = []
+sample = []
 for metabolite in range(len(sort_stress_top_all_plasma_cor)):
   f1, acc, prec, recall, matrix = get_preds(plasma_trainX, plasma_testX, plasma_trainY, plasma_testY, sort_stress_top_all_plasma_cor.index[metabolite])
   metric_list = [f1, acc, prec, recall]
   stress_plasma1[sort_stress_top_all_plasma_cor.index[metabolite]] = metric_list
   matrix_list.append(matrix)
+  sample.append(sort_stress_top_all_plasma_cor.index[metabolite])
 
+Matrix_sampleList = pd.DataFrame({"sample": sample, "Matrix": matrix_list})
 stress_plasma1.index = ['f1', 'acc', 'prec', 'recall']
-stress_plasma1 = stress_plasma1.transpose().sort_values(by=['acc'])
+stress_plasma1 = stress_plasma1.transpose().sort_values(by=['acc'],ascending=False)
 
-counter=1
-for i in matrix_list:
+counter=0
+while counter < len(stress_plasma1) :
   test = "application/Matrix_Plasma_ALL"+ str(counter) +".png"
-  i.plot()
+  Matrix_sampleList[Matrix_sampleList["sample"] == stress_plasma1.index[counter]].iloc[0]["Matrix"].plot()
   plt.savefig(test)
-  counter += 1
-  if counter == 4:
+  if counter == 2:
     break
-
+  else:
+    counter += 1
+    
 stress_plasma2 = pd.DataFrame()
 matrix_list = []
+sample=[]
 for metabolite in range(len(sort_stress_top_top_plasma_cor)):
   f1, acc, prec, recall, matrix = get_preds(plasma_trainX, plasma_testX, plasma_trainY, plasma_testY, sort_stress_top_top_plasma_cor.index[metabolite])
   metric_list = [f1, acc, prec, recall]
   stress_plasma2[sort_stress_top_top_plasma_cor.index[metabolite]] = metric_list
   matrix_list.append(matrix)
+  sample.append(sort_stress_top_top_plasma_cor.index[metabolite])
+
+Matrix_sampleList = pd.DataFrame({"sample": sample, "Matrix": matrix_list})
 
 stress_plasma2.index = ['f1', 'acc', 'prec', 'recall']
-stress_plasma2 = stress_plasma2.transpose().sort_values(by=['acc'])
-counter=1
-for i in matrix_list:
+stress_plasma2 = stress_plasma2.transpose().sort_values(by=['acc'],ascending=False)
+
+counter=0
+while counter < len(stress_plasma2) :
   test = "application/Matrix_Plasma_TOP"+ str(counter) +".png"
-  i.plot()
+  Matrix_sampleList[Matrix_sampleList["sample"] == stress_plasma2.index[counter]].iloc[0]["Matrix"].plot()
   plt.savefig(test)
-  counter += 1
-  if counter == 4:
+  if counter == 2:
     break
+  else:
+    counter += 1
 
 stress_csf1 = pd.DataFrame()
 matrix_list = []
+sample=[]
 for metabolite in range(len(sort_stress_top_all_csf_cor)):
   f1, acc, prec, recall, matrix = get_preds(csf_trainX, csf_testX, csf_trainY, csf_testY, sort_stress_top_all_csf_cor.index[metabolite])
   metric_list = [f1, acc, prec, recall]
   stress_csf1[sort_stress_top_all_csf_cor.index[metabolite]] = metric_list
   matrix_list.append(matrix)
+  sample.append(sort_stress_top_all_csf_cor.index[metabolite])
 
+Matrix_sampleList = pd.DataFrame({"sample": sample, "Matrix": matrix_list})
 stress_csf1.index = ['f1', 'acc', 'prec', 'recall']
-stress_csf1 = stress_csf1.transpose().sort_values(by=['acc'])
+stress_csf1 = stress_csf1.transpose().sort_values(by=['acc'],ascending=False)
 
-counter=1
-for i in matrix_list:
+counter=0
+while counter < len(stress_csf1) :
   test = "application/Matrix_CSF_ALL"+ str(counter) +".png"
-  i.plot()
+  Matrix_sampleList[Matrix_sampleList["sample"] == stress_csf1.index[counter]].iloc[0]["Matrix"].plot()
   plt.savefig(test)
-  counter += 1
-  if counter == 4:
+  if counter == 2:
     break
+  else:
+    counter += 1
+
 
 stress_csf2 = pd.DataFrame()
 matrix_list = []
@@ -139,7 +154,17 @@ for metabolite in range(len(sort_stress_top_top_csf_cor)):
   matrix_list.append(matrix)
 
 stress_csf2.index = ['f1', 'acc', 'prec', 'recall']
-stress_csf2 = stress_csf2.transpose().sort_values(by=['acc'])
+stress_csf2 = stress_csf2.transpose().sort_values(by=['acc'], ascending=False)
+
+counter=0
+while counter < len(stress_csf2) :
+  test = "application/Matrix_CSF_TOP"+ str(counter) +".png"
+  Matrix_sampleList[Matrix_sampleList["sample"] == stress_csf2.index[counter]].iloc[0]["Matrix"].plot()
+  plt.savefig(test)
+  if counter == 2:
+    break
+  else:
+    counter += 1
 
 stress_plasma1.to_csv("application/stress_top_plasma_all_pred.csv")
 stress_plasma2.to_csv("application/stress_top_plasma_top_pred.csv")

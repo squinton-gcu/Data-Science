@@ -11,8 +11,7 @@ library(ggplot2)
 library(reshape)
 library(stringr)
 options(warn=-1)
-location <- getwd()
-location
+
 plasma_all_stress_graph <- as.data.frame(read.table("plasma_all_stress_graph.csv", header=TRUE, sep=","))
 plasma_all_stress_cor <- as.data.frame(read.table("sort_stress_top_all_plasma_cor.csv", header=TRUE, sep=","))
 plasma_all_stress_cor[,1]<- str_replace_all(plasma_all_stress_cor[,1], "-", ".")
@@ -63,9 +62,31 @@ TSAC <- read.table("sort_stress_top_all_csf_cor.csv", header=TRUE, sep=",")
 TSTC <- read.table("sort_stress_top_top_csf_cor.csv", header=TRUE, sep=",")
 
 TSAPP <- read.table("stress_top_plasma_all_pred.csv", header=TRUE, sep=",")
+metabolite1<- TSAPP[1,1]
+metabolite2<- TSAPP[2,1]
+metabolite3<- TSAPP[3,1]
 TSTPP <- read.table("stress_top_plasma_top_pred.csv", header=TRUE, sep=",")
+metabolite4<- TSTPP[1,1]
+metabolite5<-if (is.na(TSTPP[2,1])){
+    paste("")
+} else { paste(TSTPP[2,1])}
+metabolite6<-if (is.na(TSTPP[3,1])){
+  paste("")
+} else { paste(TSTPP[3,1])}
 TSCAP <- read.table("stress_top_csf_all_pred.csv", header=TRUE, sep=",")
+metabolite7<- TSCAP[1,1]
+metabolite8<- TSCAP[2,1]
+metabolite9<- TSCAP[3,1]
 TSTCP <- read.table("stress_top_csf_top_pred.csv", header=TRUE, sep=",")
+metabolite10 <- if (is.na(TSTCP[1,1])){
+  paste("")
+} else { paste(TSTCP[1,1])}
+metabolite11<- if (is.na(TSTCP[2,1])){
+  paste("")
+} else { paste(TSTCP[2,1])}
+metabolite12 <-if (is.na(TSTCP[3,1])){
+  paste("")
+} else { paste(TSTCP[3,1])}
 
 plasma_all_stress_pred <- as.data.frame(read.table("stress_top_plasma_all_pred.csv", header=TRUE, sep=","))
 csf_all_stress_pred<- as.data.frame(read.table("stress_top_csf_all_pred.csv", header=TRUE, sep=","))
@@ -106,62 +127,126 @@ colnames(test1) <- c("x", "y", "value")
 
 # Define UI  ----
 ui <- mainPanel(titlePanel("The Investigation of Alzheimer's disease and Stress with Metabolomics Data"),fluidPage(
-                tabsetPanel(type = "tabs",
-                            tabPanel("Main", fluidRow(
-                        column(3,
-                         verticalLayout(
-                           plotOutput("plot", click= "plot_click"),
-                           plotOutput("plot2", click= "plot_click"),
-                           plotOutput("plot3", click= "plot_click"))),
-                        column(8,
-                         dataTableOutput("table1"),
-                         plotOutput("heat", click= "plot_click")),
-                  
-                        column(1,
-                         radioButtons("checkbox", "Location of Collection:", c("Plasma" = "Plasma", "CSF" = "CSF"), selected = "CSF"),
-                         htmlOutput("text"),
-                         dataTableOutput("table2")))),
-                        
-                        tabPanel("Prediction Maps", fluidRow(
-                          column(3,
-                                 verticalLayout(
-                                   textOutput("text5"),
-                                   imageOutput("MatrixPlasma1"),
-                                   imageOutput("MatrixPlasma2"),
-                                   imageOutput("MatrixPlasma3")
-                                 )),
-                          column(3,
-                                 verticalLayout(
-                                   textOutput("text6"),
-                                   imageOutput("MatrixPlasmaT1")
-                                 )),
-                          column(3,
-                                 verticalLayout(
-                                   textOutput("text7"),
-                                   imageOutput("MatrixCSF1"),
-                                   imageOutput("MatrixCSF2"),
-                                   imageOutput("MatrixCSF3")
-                            ))
-                        )),
-                        tabPanel("Download Data", titlePanel("Download Data"),
-                              sidebarPanel(
-                                selectInput("dataset", "Choose a dataset:", choices = c("ALZPlasmaProcessed", "ALZCSFProcessed", "TraumaHumanProcessed", "TraumaRatProcessed",
-                                                                                        "ALZPlasmaTvaluePvalue", "ALZCSFTvaluePvalue", "TraumaHumanTvaluePvalue", "TraumaRatTvaluePvalue",
-                                                                                        "TopStressAllPlasma", "TopStressTopPlasma", "TopStressAllCSF", "TopStressTopCSF",
-                                                                                        "TopStressAllPlasmaPredictions", "TopStressTopPlasmaPredictions", "TopStressAllCSFPredictions", "TopStressTopCSFPredictions")),
-                                downloadButton("downloadData", "Download")
-                              ),
-                              mainPanel(
-                                tableOutput("tableTest"))
-                              )
-                              )
-                      
+  tabsetPanel(type = "tabs",
+              tabPanel("Introduction", fluidRow(
+                column(12,
+                       verticalLayout(
+                         htmlOutput("intro1"),
+                         htmlOutput("intro2"),
+                         htmlOutput("intro3"),
+                         htmlOutput("intro4")
+                       ))
+              )),
+              tabPanel("Main", fluidRow(
+                column(3,
+                       verticalLayout(
+                         htmlOutput("label1"),
+                         plotOutput("plot", click= "plot_click"),
+                         plotOutput("plot2", click= "plot_click"),
+                         plotOutput("plot3", click= "plot_click"))),
+                column(6,
+                       htmlOutput("label2"),
+                       dataTableOutput("table1"),
+                       htmlOutput("label3"),
+                       plotOutput("heat", click= "plot_click")),
                 
+                column(3,
+                       radioButtons("checkbox", "Location of Collection:", c("Plasma" = "Plasma", "CSF" = "CSF"), selected = "CSF"),
+                       htmlOutput("text"),
+                       htmlOutput("label4"),
+                       dataTableOutput("table2")))),
+              
+              tabPanel("Prediction Maps", fluidRow(
+                column(3,
+                       verticalLayout(
+                         htmlOutput("text5"),
+                         textOutput("met1"),
+                         imageOutput("MatrixPlasma1"),
+                         textOutput("met2"),
+                         imageOutput("MatrixPlasma2"),
+                         textOutput("met3"),
+                         imageOutput("MatrixPlasma3")
+                       )),
+                column(3,
+                       verticalLayout(
+                         htmlOutput("text6"),
+                         textOutput("met4"),
+                         imageOutput("MatrixPlasmaT1"),
+                         textOutput("met5"),
+                         imageOutput("MatrixPlasmaT2"),
+                         textOutput("met6"),
+                         imageOutput("MatrixPlasmaT3")
+                       )),
+                column(3,
+                       verticalLayout(
+                         htmlOutput("text7"),
+                         textOutput("met7"),
+                         imageOutput("MatrixCSF1"),
+                         textOutput("met8"),
+                         imageOutput("MatrixCSF2"), 
+                         textOutput("met9"),
+                         imageOutput("MatrixCSF3")
+                       )),
+                column(3,
+                       verticalLayout(
+                         htmlOutput("text8"),
+                         textOutput("met10"),
+                         imageOutput("MatrixCSFT1"),
+                         textOutput("met11"),
+                         imageOutput("MatrixCSFT2"),
+                         textOutput("met12"),
+                         imageOutput("MatrixCSFT3")
+                       ))
+              )),
+              tabPanel("Download Data", titlePanel("Download Data"),
+                       sidebarPanel(
+                         selectInput("dataset", "Choose a dataset:", choices = c("ALZPlasmaProcessed", "ALZCSFProcessed", "TraumaHumanProcessed", "TraumaRatProcessed",
+                                                                                 "ALZPlasmaTvaluePvalue", "ALZCSFTvaluePvalue", "TraumaHumanTvaluePvalue", "TraumaRatTvaluePvalue",
+                                                                                 "TopStressAllPlasma", "TopStressTopPlasma", "TopStressAllCSF", "TopStressTopCSF",
+                                                                                 "TopStressAllPlasmaPredictions", "TopStressTopPlasmaPredictions", "TopStressAllCSFPredictions", "TopStressTopCSFPredictions")),
+                         downloadButton("downloadData", "Download")
+                       ),
+                       mainPanel(
+                         tableOutput("tableTest"))
+              )
   )
+  
+  
 )
+)
+
 
 # Define server logic to plot ---
 server <- function(input, output, session) {
+  
+  output$intro1 <- renderText({
+    paste("<b>Correlation Graphs: </b>Correlation graphs take the highest p-value metabolites from the correlation module. The top three will change based on which
+    metabolite was selected. The correlation is a logistic regression. The x-axis represents the expression of the metabolite. The y-axis is Alzheimer's disease.
+    Zero is no Alzheimer's disease and one is Alzheimer's disease. This represents the success of the correlation module.<br><br>")
+  })
+  output$intro2 <- renderText({
+    paste("<b>Heatmap: </b>The heatmap represents the results of the feature selection module. The X-axis represents each metabolite that is selected from the feature selection 
+    module. The y-axis represents the samples. AD represents Alzheimer's disease and MCI(Mild Cognitive Impairment) and CN(Clinically Normal) represent no Alzheimer's disease. These graphs do not reveal detailed
+    information but rather give a good visual overview.<br><br>")
+  })
+  output$intro3 <- renderText({
+    paste("<b>Tables: </b>Two tables are used in this study. The top middle table of the Main tab represents the correlation metrics of the given collection site. The right bottom
+    table represents the metrics from the prediction module.<br><br>")
+  })
+  
+  output$intro4 <- renderText({
+    paste("<b>Prediction graphs: </b>These are confusion matrices represented as a plot that show the success of the predictions. The top left of the confusion matrix graph represents true negative predictions.
+    The bottom left represents false positives. The top right represents false negatives. The bottom right represents true positives. The numerical representation of this visual
+    representation can be seen in the metrics table of the Main tab. One represents Alzheimer's disease and zero represent no Alzheimer's disease. If a value is one, and is predicted
+    to be one, it will fall in the bottom right corner. If a sample is one but is predicted to be zero, then it falls in the bottom left corner. The first column of graphs is from the 
+    three most predicted metabolites where the selected stress and all Alzheimer's disease are compared. The second column represents the top metabolites that are comparative in the selected plasma Alzheimer's disease and the selected stress. The third column represents the comparative 
+    analysis between the selected stress metabolites and all CSF Alzheimer's disease metabolites. The fourth column represents the top metabolites that were predicted from comparing the selected ALZ CSF data and the selected stress data. <br><br>")
+  })
+  
+  output$label1 <- renderText({paste("<b>Correlation Plots: 0 is no ALZ and 1 is ALZ<br>")})
+  output$label2 <- renderText({paste("<b>Corellation Metrics Table<br>")})
+  output$label3 <- renderText({paste("<b>Feature Selection Heatmap: Y-axis is disease or no disease, X-axis is metabolites<br>")})
+  output$label4 <- renderText({paste("<b>Predictive analysis metrics Table<br>")})
   
   output$plot <- renderPlot({
     if(input$checkbox == "Plasma"){
@@ -246,41 +331,59 @@ server <- function(input, output, session) {
     } else{
       csf_all_stress_pred
     } }, options = list(pageLength = 5))
-  
-  setwd(location)
-  location
-  # output$ALZPlasmaN1 <- renderImage({list(src = "ALZ_plasma _normalized1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$ALZPlasmaN2 <- renderImage({list(src = "ALZ_plasma _normalized2.png", contentType="image/png", width = 400, height = 500)}, deleteFile = F)
 
-  # output$ALZCSFN1 <- renderImage({list(src = "/application/application/application/ALZ_csf _normalized1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$ALZCSFN1 <- renderImage({list(src = "/application/application/application/ALZ_csf _normalized2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixPlasma1 <- renderImage({list(src = "Matrix_Plasma_ALL0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasma2 <- renderImage({list(src = "Matrix_Plasma_ALL1.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasma3 <- renderImage({list(src = "Matrix_Plasma_ALL2.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  
+  output$MatrixPlasmaT1 <- renderImage({list(src = "Matrix_Plasma_TOP0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasmaT2 <- renderImage({
+    if (file.exists("Matrix_Plasma_TOP1.png")) {
+      list(src = "Matrix_Plasma_TOP1.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
+  
+  output$MatrixPlasmaT3 <- renderImage({
+    if (file.exists("Matrix_Plasma_TOP2.png")) {
+      list(src = "Matrix_Plasma_TOP2.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
+  
+  output$MatrixCSF1 <- renderImage({list(src = "Matrix_CSF_ALL0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixCSF2 <- renderImage({list(src = "Matrix_CSF_ALL1.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixCSF3 <- renderImage({list(src = "Matrix_CSF_ALL2.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  
 
-  # output$stressHN1 <- renderImage({list(src = "/application/application/application/trauma_human _normalized1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$stressHN2 <- renderImage({list(src = "/application/application/application/trauma_human _normalized2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-
-  # output$stressRN1 <- renderImage({list(src = "/application/application/application/trauma_rat _normalized1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$stressRN2 <- renderImage({list(src = "/application/application/application/trauma_rat _normalized2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$stressRS1 <- renderImage({list(src = "/application/application/application/trauma_rat _scale1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  # output$stressRS2 <- renderImage({list(src = "/application/application/application/trauma_rat _scale2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixCSFT1 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP0.png")) {
+      list(src = "Matrix_CSF_TOP0.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
   
-  output$MatrixPlasma1 <- renderImage({list(src = "Matrix_Plasma_ALL1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixPlasma2 <- renderImage({list(src = "Matrix_Plasma_ALL2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixPlasma3 <- renderImage({list(src = "Matrix_Plasma_ALL3.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixCSFT2 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP1.png")) {
+      list(src = "Matrix_CSF_TOP1.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
   
-  output$MatrixPlasmaT1 <- renderImage({list(src = "Matrix_Plasma_TOP1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixCSFT3 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP2.png")) {
+      list(src = "Matrix_CSF_TOP2.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
   
-  output$MatrixCSF1 <- renderImage({list(src = "Matrix_CSF_ALL1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixCSF2 <- renderImage({list(src = "Matrix_CSF_ALL2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixCSF3 <- renderImage({list(src = "Matrix_CSF_ALL3.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$text5 <- renderText( {paste("<b>ALZ Plasma all<br>")})
+  output$text6 <- renderText( {paste("<b>ALZ Plasma top<br>")})
+  output$text7 <- renderText({paste("<b>ALZ CSF All<br>")})
+  output$text8 <- renderText({paste("<b>ALZ CSF Top<br>")})
   
-  output$text1 <- renderText({"ALZ Plasma"})
-  output$text2 <- renderText({"ALZ CSF"})
-  output$text3 <- renderText({ "stress human "})
-  output$text4 <- renderText({ "stress rat "})
-  
-  output$text5 <- renderText( { "ALZ Plasma all "})
-  output$text6 <- renderText( {"ALZ Plasma top"})
-  output$text7 <- renderText({"ALZ CSF All"})
+  output$met1 <- renderText({metabolite1})
+  output$met2 <- renderText({metabolite2})
+  output$met3 <- renderText({metabolite3})
+  output$met4 <- renderText({metabolite4})
+  output$met5 <- renderText({metabolite5})
+  output$met6 <- renderText({metabolite6})
+  output$met7 <- renderText({metabolite7})
+  output$met8 <- renderText({metabolite8})
+  output$met9 <- renderText({metabolite9})
+  output$met10 <- renderText({metabolite10})
+  output$met11 <- renderText({metabolite11})
+  output$met12 <- renderText({metabolite12})
   
   datasetInput <- reactive({
     switch(input$dataset,
@@ -300,7 +403,8 @@ server <- function(input, output, session) {
            "TopStressAllPlasmaPredictions" = TSAPP,
            "TopStressTopPlasmaPredictions" =TSTPP,
            "TopStressAllCSFPredictions" =TSCAP,
-           "TopStressTopCSFPredictions" =TSTCP)
+           "TopStressTopCSFPredictions" =TSTCP
+          )
   })
   
   output$tableTest <- renderTable({
@@ -315,7 +419,6 @@ server <- function(input, output, session) {
       write.csv(datasetInput(), file, row.names = FALSE)
     
     })
-  
 }
 
 #runGadget(ui, server, viewer = browserViewer(browser = getOption("browser")))

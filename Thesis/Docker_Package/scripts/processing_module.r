@@ -42,22 +42,22 @@ processing_step_scale <- function(normalizedFile) {
 }
 
 
-# # will generate a few random initial exploratory graphs to ensure processing was successful
-# graph_normalizeVSscale <- function(normalized_table, scale_table, table_name) {
-  # png(paste("application/", table_name, "_scale1.png"))
-  # scale1_hist <- hist(as.numeric(scale_table[1,]), main = paste("Histogram of " , table_name, "scale1"))
-  # dev.off()
-  # png(paste("application/", table_name, "_scale2.png"))
-  # scale12_hist <- hist(as.numeric(scale_table[15,]), main = paste("Histogram of " , table_name, "scale2"))
-  # dev.off()
+# will generate a few random initial exploratory graphs to ensure processing was successful
+graph_normalizeVSscale <- function(normalized_table, original_table, table_name) {
+  png(paste("application/", table_name, "_original1.png"))
+  scale1_hist <- hist(as.numeric(original_table[1,]), main = paste("Histogram of " , table_name, "scale1"))
+  dev.off()
+  png(paste("application/", table_name, "_original2.png"))
+  scale12_hist <- hist(as.numeric(original_table[15,]), main = paste("Histogram of " , table_name, "scale2"))
+  dev.off()
 
-  # png(paste("application/", table_name, "_normalized1.png"))
-  # normalized1_hist <- hist(as.numeric(normalized_table[1,]), main = paste("Histogram of " , table_name, "normalized1"))
-  # dev.off()
-  # png(paste("application/", table_name, "_normalized2.png"))
-  # normalized2_hist <- hist(as.numeric(normalized_table[15,]), main = paste("Histogram of " , table_name, "normalized2"))
-  # dev.off()
-# }
+  png(paste("application/", table_name, "_normalized1.png"))
+  normalized1_hist <- hist(as.numeric(normalized_table[1,]), main = paste("Histogram of " , table_name, "normalized1"))
+  dev.off()
+  png(paste("application/", table_name, "_normalized2.png"))
+  normalized2_hist <- hist(as.numeric(normalized_table[15,]), main = paste("Histogram of " , table_name, "normalized2"))
+  dev.off()
+}
 
 #outlier checker using IQR
 outlier_checker <- function(normalized, name) {
@@ -99,10 +99,10 @@ outlier_checker(trauma_human_normalized, "trauma_human")
 outlier_checker(trauma_rat_normalized, "trauma_rat")
 
 
-# graph_normalizeVSscale(ALZ_plasma_normalized, ALZ_plasma_scaled, "ALZ_plasma")
-# graph_normalizeVSscale(ALZ_csf_normalized, ALZ_csf_scaled, "ALZ_csf")
-# graph_normalizeVSscale(trauma_human_normalized, trauma_human_scaled, "trauma_human")
-# graph_normalizeVSscale(trauma_rat_normalized, trauma_rat_scaled, "trauma_rat")
+graph_normalizeVSscale(ALZ_plasma_normalized, ALZ_plasma_imputed, "ALZ_plasma")
+graph_normalizeVSscale(ALZ_csf_normalized, ALZ_csf_imputed, "ALZ_csf")
+graph_normalizeVSscale(trauma_human_normalized, trauma_human_imputed, "trauma_human")
+graph_normalizeVSscale(trauma_rat_normalized, trauma_rat_imputed, "trauma_rat")
 
 # save processed verisons of data frames
 write.csv(ALZ_plasma_normalized, "application/ALZ_plasma_processed.csv", row.names=TRUE)
