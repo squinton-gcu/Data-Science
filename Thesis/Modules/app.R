@@ -10,8 +10,8 @@ library(shiny)
 library(ggplot2)
 library(reshape)
 library(stringr)
+options(warn=-1)
 
-setwd("C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny")
 plasma_all_stress_graph <- as.data.frame(read.table("plasma_all_stress_graph.csv", header=TRUE, sep=","))
 plasma_all_stress_cor <- as.data.frame(read.table("sort_stress_top_all_plasma_cor.csv", header=TRUE, sep=","))
 plasma_all_stress_cor[,1]<- str_replace_all(plasma_all_stress_cor[,1], "-", ".")
@@ -67,11 +67,26 @@ metabolite2<- TSAPP[2,1]
 metabolite3<- TSAPP[3,1]
 TSTPP <- read.table("stress_top_plasma_top_pred.csv", header=TRUE, sep=",")
 metabolite4<- TSTPP[1,1]
+metabolite5<-if (is.na(TSTPP[2,1])){
+    paste("")
+} else { paste(TSTPP[2,1])}
+metabolite6<-if (is.na(TSTPP[3,1])){
+  paste("")
+} else { paste(TSTPP[3,1])}
 TSCAP <- read.table("stress_top_csf_all_pred.csv", header=TRUE, sep=",")
-metabolite5<- TSCAP[1,1]
-metabolite6<- TSCAP[2,1]
-metabolite7<- TSCAP[3,1]
+metabolite7<- TSCAP[1,1]
+metabolite8<- TSCAP[2,1]
+metabolite9<- TSCAP[3,1]
 TSTCP <- read.table("stress_top_csf_top_pred.csv", header=TRUE, sep=",")
+metabolite10 <- if (is.na(TSTCP[1,1])){
+  paste("")
+} else { paste(TSTCP[1,1])}
+metabolite11<- if (is.na(TSTCP[2,1])){
+  paste("")
+} else { paste(TSTCP[2,1])}
+metabolite12 <-if (is.na(TSTCP[3,1])){
+  paste("")
+} else { paste(TSTCP[3,1])}
 
 plasma_all_stress_pred <- as.data.frame(read.table("stress_top_plasma_all_pred.csv", header=TRUE, sep=","))
 csf_all_stress_pred<- as.data.frame(read.table("stress_top_csf_all_pred.csv", header=TRUE, sep=","))
@@ -87,14 +102,14 @@ check_numbers <- function(list_name) {
   return(list_name)
 }
 
-first_metab_plasma <- check_numbers(toString(plasma_all_stress_cor[10,1]))
+first_metab_plasma <- check_numbers(toString(plasma_all_stress_cor[1,1]))
 first_metab_plasma_head <- str_replace_all(first_metab_plasma, "-", ".")
 second_metab_plasma <- check_numbers(plasma_all_stress_cor[2,1])
 second_metab_plasma_head <- str_replace_all(second_metab_plasma, "-", ".")
 third_metab_plasma <- check_numbers(plasma_all_stress_cor[3,1])
 third_metab_plasma_head <- str_replace_all(third_metab_plasma, "-", ".")
 
-first_metab_csf <- check_numbers(csf_all_stress_cor[6,1])
+first_metab_csf <- check_numbers(csf_all_stress_cor[1,1])
 first_metab_csf_head <- str_replace_all(first_metab_csf, "-", ".")
 second_metab_csf <- check_numbers(csf_all_stress_cor[2,1])
 second_metab_csf_head <- str_replace_all(second_metab_csf, "-", ".")
@@ -156,17 +171,31 @@ ui <- mainPanel(titlePanel("The Investigation of Alzheimer's disease and Stress 
                        verticalLayout(
                          htmlOutput("text6"),
                          textOutput("met4"),
-                         imageOutput("MatrixPlasmaT1")
+                         imageOutput("MatrixPlasmaT1"),
+                         textOutput("met5"),
+                         imageOutput("MatrixPlasmaT2"),
+                         textOutput("met6"),
+                         imageOutput("MatrixPlasmaT3")
                        )),
                 column(3,
                        verticalLayout(
                          htmlOutput("text7"),
-                         textOutput("met5"),
-                         imageOutput("MatrixCSF1"),
-                         textOutput("met6"),
-                         imageOutput("MatrixCSF2"), 
                          textOutput("met7"),
+                         imageOutput("MatrixCSF1"),
+                         textOutput("met8"),
+                         imageOutput("MatrixCSF2"), 
+                         textOutput("met9"),
                          imageOutput("MatrixCSF3")
+                       )),
+                column(3,
+                       verticalLayout(
+                         htmlOutput("text8"),
+                         textOutput("met10"),
+                         imageOutput("MatrixCSFT1"),
+                         textOutput("met11"),
+                         imageOutput("MatrixCSFT2"),
+                         textOutput("met12"),
+                         imageOutput("MatrixCSFT3")
                        ))
               )),
               tabPanel("Download Data", titlePanel("Download Data"),
@@ -198,7 +227,7 @@ server <- function(input, output, session) {
   output$intro2 <- renderText({
     paste("<b>Heatmap: </b>The heatmap represents the results of the feature selection module. The X-axis represents each metabolite that is selected from the feature selection 
     module. The y-axis represents the samples. AD represents Alzheimer's disease and MCI(Mild Cognitive Impairment) and CN(Clinically Normal) represent no Alzheimer's disease. These graphs do not reveal detailed
-    information.<br><br>")
+    information but rather give a good visual overview.<br><br>")
   })
   output$intro3 <- renderText({
     paste("<b>Tables: </b>Two tables are used in this study. The top middle table of the Main tab represents the correlation metrics of the given collection site. The right bottom
@@ -210,9 +239,8 @@ server <- function(input, output, session) {
     The bottom left represents false positives. The top right represents false negatives. The bottom right represents true positives. The numerical representation of this visual
     representation can be seen in the metrics table of the Main tab. One represents Alzheimer's disease and zero represent no Alzheimer's disease. If a value is one, and is predicted
     to be one, it will fall in the bottom right corner. If a sample is one but is predicted to be zero, then it falls in the bottom left corner. The first column of graphs is from the 
-    three most predicted metabolites where the selected stress and all Alzheimer's disease are compared. The second column is only one graph because only one metabolite is represented in the 
-    group. It represents the top metabolite that is comparative in the selected plasma Alzheimer's disease and the selected stress metabolites. The third column represents the comparative 
-    analysis between the selected stress metabolites and all CSF Alzheimer metabolites.<br><br>")
+    three most predicted metabolites where the selected stress and all Alzheimer's disease are compared. The second column represents the top metabolites that are comparative in the selected plasma Alzheimer's disease and the selected stress. The third column represents the comparative 
+    analysis between the selected stress metabolites and all CSF Alzheimer's disease metabolites. The fourth column represents the top metabolites that were predicted from comparing the selected ALZ CSF data and the selected stress data. <br><br>")
   })
   
   output$label1 <- renderText({paste("<b>Correlation Plots: 0 is no ALZ and 1 is ALZ<br>")})
@@ -303,22 +331,46 @@ server <- function(input, output, session) {
     } else{
       csf_all_stress_pred
     } }, options = list(pageLength = 5))
-  
-  setwd("C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/")
 
-  output$MatrixPlasma1 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_Plasma_ALL1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixPlasma2 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_Plasma_ALL2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixPlasma3 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_Plasma_ALL3.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixPlasma1 <- renderImage({list(src = "Matrix_Plasma_ALL0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasma2 <- renderImage({list(src = "Matrix_Plasma_ALL1.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasma3 <- renderImage({list(src = "Matrix_Plasma_ALL2.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
   
-  output$MatrixPlasmaT1 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_Plasma_TOP1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixPlasmaT1 <- renderImage({list(src = "Matrix_Plasma_TOP0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixPlasmaT2 <- renderImage({
+    if (file.exists("Matrix_Plasma_TOP1.png")) {
+      list(src = "Matrix_Plasma_TOP1.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
   
-  output$MatrixCSF1 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_CSF_ALL1.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixCSF2 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_CSF_ALL2.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
-  output$MatrixCSF3 <- renderImage({list(src = "C:/Users/sophi/OneDrive/Desktop/Graduate Classes/Thesis/docs_Shiny/Matrix_CSF_ALL3.png", contentType="image/png", width = 400, height = 400)}, deleteFile = F)
+  output$MatrixPlasmaT3 <- renderImage({
+    if (file.exists("Matrix_Plasma_TOP2.png")) {
+      list(src = "Matrix_Plasma_TOP2.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
+  
+  output$MatrixCSF1 <- renderImage({list(src = "Matrix_CSF_ALL0.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixCSF2 <- renderImage({list(src = "Matrix_CSF_ALL1.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  output$MatrixCSF3 <- renderImage({list(src = "Matrix_CSF_ALL2.png", contentType="image/png", width = 300, height = 300)}, deleteFile = F)
+  
+
+  output$MatrixCSFT1 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP0.png")) {
+      list(src = "Matrix_CSF_TOP0.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
+  
+  output$MatrixCSFT2 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP1.png")) {
+      list(src = "Matrix_CSF_TOP1.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
+  
+  output$MatrixCSFT3 <- renderImage({
+    if (file.exists("Matrix_CSF_TOP2.png")) {
+      list(src = "Matrix_CSF_TOP2.png", contentType="image/png", width = 300, height = 300)
+    } else { list(src = "", contentType="image/png", width = 1, height = 1) } }, deleteFile = F)
   
   output$text5 <- renderText( {paste("<b>ALZ Plasma all<br>")})
   output$text6 <- renderText( {paste("<b>ALZ Plasma top<br>")})
   output$text7 <- renderText({paste("<b>ALZ CSF All<br>")})
+  output$text8 <- renderText({paste("<b>ALZ CSF Top<br>")})
   
   output$met1 <- renderText({metabolite1})
   output$met2 <- renderText({metabolite2})
@@ -327,6 +379,11 @@ server <- function(input, output, session) {
   output$met5 <- renderText({metabolite5})
   output$met6 <- renderText({metabolite6})
   output$met7 <- renderText({metabolite7})
+  output$met8 <- renderText({metabolite8})
+  output$met9 <- renderText({metabolite9})
+  output$met10 <- renderText({metabolite10})
+  output$met11 <- renderText({metabolite11})
+  output$met12 <- renderText({metabolite12})
   
   datasetInput <- reactive({
     switch(input$dataset,
